@@ -1,0 +1,12 @@
+
+{block content}
+
+<h1>{$student|formatName}</h1>
+
+
+{widget editSubjects begin}
+{widget editSubjects errors}
+
+{control editSubjects body}
+
+{widget editSubjects end}

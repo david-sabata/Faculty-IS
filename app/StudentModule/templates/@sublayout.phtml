@@ -1,0 +1,20 @@
+@{extends '../../templates/@layout.phtml'}
+
+
+@{block #menu}
+<ul id="menu">
+   <li{if $presenter->isCurrent('*:Overview:*')} class="active"{/if}><a href="{link Overview:}">Studium</a></li>
+   <li{if $presenter->isCurrent('*:Subjects:*')} class="active"{/if}><a href="{link Subjects:}">Předměty</a></li>
+   <li><a href="#" class="not-implemented">SZZ / BP / DP</a></li>
+   <li><a href="#" class="not-implemented">Ostatní</a></li>
+   <li><a href="{link logout}">Odhlásit</a></li>   
+</ul>
+
+<div id="submenu">   
+   {block #submenu}
+   <a href="{link Subjects:default}"{if $presenter->isCurrent('*:Subjects:default')} class="active"{/if}>Všechny registrované</a>
+   <a href="#" class="not-implemented">Registrace předmětů</a>
+   <a href="#" class="not-implemented">Mezifakultní předměty</a>
+   {/block}
+</div>
+@{/block}

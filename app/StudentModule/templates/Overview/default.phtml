@@ -1,0 +1,49 @@
+{block submenu}
+   <a href="{link default}" class="active">Aktuální přehled</a>
+   <a href="#" class="not-implemented">Fakultní novinky</a>
+   <a href="#" class="not-implemented">Osobní rozvrh</a>
+   <a href="#" class="not-implemented">Diskusní fóra</a>
+{/block}
+
+
+
+{block semester}
+   <thead>
+      <tr>
+         <th colspan="2" n:if="$s == 'W'">Zimní semestr</th>
+         <th colspan="2" n:if="$s == 'S'">Letní semestr</th>
+         <th class="c">Body</th>
+         <th class="c">Záp</th>
+         <th class="c">Zn</th>
+         <th class="c">Kr</th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr n:foreach="$subjects as $subject" n:if="$subject->semester == $s">
+         <td>{$subject->code}</td>
+         <td>
+            <a href="{link Subjects:detail $subject->id}">{$subject->name}</a>
+         </td>
+
+         <td class="c"><strong>{if !isset($sums[$subject->id])}0{else}{$sums[$subject->id]}{/if}</strong></td>
+         <td class="c"><span class="red">ne</span></td>
+         <td class="c">{if isset($sums[$subject->id])}{!$sums[$subject->id]|formatMark}{else}{!='0'|formatMark}{/if}</td>
+         <td class="c">{$subject->credits}</td>
+
+         <td>
+            <a href="{link Subjects:detail $subject->id}" title="Detail předmětu"><span class="icon icon-detail"></span></a>
+            <a href="#" class="not-implemented" title="Veřejná stránka předmětu"><span class="icon icon-page"></span></a>
+            <a href="#" class="not-implemented" title="Datový sklad"><span class="icon icon-page-save"></span></a>
+         </td>
+      </tr>
+   </tbody>   
+{/block}
+
+   
+{block content}
+
+<table class="datagrid">
+   {include #semester, s => 'W'}
+   {include #semester, s => 'S'}   
+</table>

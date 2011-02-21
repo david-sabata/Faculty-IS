@@ -1,0 +1,61 @@
+
+{block content}
+
+{widget editForm}
+
+<script type="text/javascript">
+//<![CDATA[
+   var id = {$control['editForm']['teachers']->control->id};
+   var teachers = {$teachers};
+
+   $(function(){
+      // hide the input field
+      $('#' + id).hide();
+
+      // add the "+" button
+      var btn = $('<input type="button" value="+" id="addBtn" />');
+      $('#' + id).after(btn);
+
+      // creates the dropdown select and insert it before the button
+      function createSelect(separator) {
+         var options = "";
+         for (var i in teachers)
+            options += '<option value="' + i + '">' + teachers[i] + '</option>';
+
+         var sel = $(separator + '<select name="dummy[]" class="teacher">' + options + '</select>');
+         $('#addBtn').before(sel);
+      }
+
+      // set up the event and create the first dropdown
+      $('#addBtn').click(function(){ createSelect('<br />') });
+      createSelect();
+
+      // move the dropdown data to the single field
+      $('#' + {$control['editForm']->getElementPrototype()->id}).submit(function() {
+         // merge all select values into the hidden teachers field
+         var teachers = '';
+         $('select.teacher').each(function(){ 
+            teachers += $(this).val() + ',';
+         });         
+
+         $('#' + id).val(teachers);
+
+         return true;
+      });
+
+      // prefill the dropdowns from the field
+      var v = $('#' + id).val();
+      if (v != '') {
+         var boom = v.split(',');
+         for (var i = 0; i < boom.length; i++) {
+            // first dropdown is already created
+            if (i > 0)
+               createSelect('<br />');
+
+            $('select.teacher').last().val(boom[i]);
+         }
+      }
+
+   });
+//]]>
+</script>

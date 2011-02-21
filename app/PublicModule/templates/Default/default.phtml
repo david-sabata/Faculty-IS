@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+      <title>Informační systém FIT</title>
+
+      <link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/global.css" type="text/css">
+      <link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/homepage.css" type="text/css">
+      <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+      <script type="text/javascript" src="/js/netteForms.js"></script>
+      <script type="text/javascript" src="/js/jquery.livequery.js"></script>
+      <script type="text/javascript" src="/js/jquery.nette.js"></script>
+      <script type="text/javascript" src="/js/datagrid.js"></script>
+   </head>
+
+   <body>
+      <div id="header">         
+         <h1><img src="/images/fit_logo.png" alt="FIT VUT" /> Fakulta informačních technologií</h1>
+      </div>
+
+      <div id="wrapper">
+         {foreach $flashes as $flash}<div class="flash {$flash->type}">{$flash->message}</div>{/foreach}
+         
+         {widget login}
+
+         <div id="hint" style="padding-top:10px">
+            <table border="1" cellpadding="6" style="margin:0 auto; border-collapse:collapse; border-color:#ccc">
+               <tr>
+                  <th>Uživatelské jméno</th>
+                  <th>Heslo</th>
+                  <th>Role</th>
+               </tr>
+               <tr>
+                  <td>admin</td>
+                  <td>test</td>
+                  <td>administrátor</td>
+               </tr>
+               <tr>
+                  <td>igaran01</td>
+                  <td>test</td>
+                  <td>garant</td>
+               </tr>
+               <tr>
+                  <td>ivyucu01</td>
+                  <td>test</td>
+                  <td>vyučující</td>
+               </tr>
+               <tr>
+                  <td>iasist01</td>
+                  <td>test</td>
+                  <td>asistent</td>
+               </tr>
+               <tr>
+                  <td>xsabat01</td>
+                  <td>test</td>
+                  <td>student</td>
+               </tr>
+               <tr>
+                  <td>xstrat06</td>
+                  <td>test</td>
+                  <td>student</td>
+               </tr>
+               <tr>
+                  <td>xzelap01</td>
+                  <td>test</td>
+                  <td>student</td>
+               </tr>
+               <tr>
+                  <td>xtycka01</td>
+                  <td>test</td>
+                  <td>student</td>
+               </tr>
+               <tr>
+                  <td>xnovak01</td>
+                  <td>test</td>
+                  <td>student</td>
+               </tr>
+            </table>
+         </div>
+      </div>
+   </body>
+</html>

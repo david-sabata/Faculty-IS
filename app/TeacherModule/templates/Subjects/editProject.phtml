@@ -1,0 +1,173 @@
+
+{block content}
+
+<h1 class="subject-detail">{$subject->name} <span class="gray">{$subject->code}</span></h1>
+
+<p class="subject-details">
+   Ak. rok {$subject->year}/{=$subject->year + 1}, {if $subject->semester == 'W'}zima{else}léto{/if},
+   počet kreditů {$subject->credits}
+</p>
+
+{control editProject begin}
+{control editProject errors}
+{var f => $control['editProject']}
+
+<div class="content-pane-left">
+   <table border="0">
+      <tr>
+         <th>{$f['title']->label}</th>
+         <td>{$f['title']->control}</td>
+      </tr>
+      <tr>
+         <th>{$f['text']->label}</th>
+         <td>{$f['text']->control}</td>
+      </tr>
+      <tr>
+         <th>{$f['max_points']->label}</th>
+         <td>{$f['max_points']->control}</td>
+      </tr>
+      <tr>
+         <th>{$f['min_points']->label}</th>
+         <td>{$f['min_points']->control}</td>
+      </tr>
+   </table>
+</div>
+
+<div class="content-pane-right">
+   <table border="0" class="l">
+      <tr>
+         <th colspan="2">Přihlašování</th>
+      </tr>
+      <tr>
+         <th style="padding-left:25px;">{$f['signup_from']->label}</th>
+         <td>{$f['signup_from']->control}</td>
+      </tr>
+      <tr>
+         <th style="padding-left:25px;">{$f['signup_until']->label}</th>
+         <td>{$f['signup_until']->control}</td>
+      </tr>
+
+      <tr><th colspan="2">&nbsp;</th></tr>
+
+      <tr>
+         <th colspan="2">Odevzdávání</th>
+      </tr>
+      <tr>
+         <th style="padding-left:25px;">{$f['submit_from']->label}</th>
+         <td>{$f['submit_from']->control}</td>
+      </tr>
+      <tr>
+         <th style="padding-left:25px;">{$f['submit_until']->label}</th>
+         <td>{$f['submit_until']->control}</td>
+      </tr>
+      <tr>
+         <th style="padding-left:25px;">{$f['submit_files']->label}</th>
+         <td>{$f['submit_files']->control}</td>
+      </tr>
+   </table>
+</div>
+
+<div class="c clb" style="padding-top:20px">
+   <strong>{$f['variants']->label}</strong> {$f['variants']->control}<br /><br />
+
+   <div id="no-variants">
+      <table border="0">
+         <tr>
+            <th>{$f['no_variant_maxteams']->label->class('hint')->title('Pro neomezený počet nechte pole prázdné')}</th>
+            <td>{$f['no_variant_maxteams']->control}</td>
+            <td>{$f['no_variant_teams']->control} {$f['no_variant_teams']->label}</td>
+         </tr>
+         <tr>
+            <th>{$f['no_variant_maxmembers']->label}</th>
+            <td>{$f['no_variant_maxmembers']->control}</td>
+         </tr>
+      </table>
+   </div>
+
+   <div id="variants">
+      {for $i=0; $i<50; $i++}
+         {$f['variant'.$i]->control}
+      {/for}
+
+      <input type="button" value="Přidat variantu" id="add-variant" />
+   </div>
+   
+   <br /><br />
+   {$f['save']->control}
+   {$f['back']->control}
+</div>
+<script type="text/javascript">
+//<![CDATA[
+$(function(){
+   var n = {$f['variants']->htmlId};
+
+   // shows / hides blocks according to "variants" radiobutton
+   function update() {
+      if ($('#' + n + '-0').attr('checked')) {
+         $('#no-variants').show();
+         $('#variants').hide();
+      } else {
+         $('#no-variants').hide();
+         $('#variants').show();
+      }
+   }
+
+   // switch variants / no variants
+   $('input[name=' + {$f['variants']->htmlName} + ']').change(update);
+   update();
+
+   // add variants
+   $('#add-variant').click(function(){
+      $('#variants .edit-project-variant:hidden').first().show();
+   });
+
+   // modify the inputs/labels when non-variant 'no teams' changes its check-state
+   $('#' + {$f['no_variant_teams']->htmlId}).change(function(){
+      if ($(this).attr('checked')) {
+         $('#' + {$f['no_variant_maxteams']->htmlId}).attr('disabled', true);
+         $('label[for=' + {$f['no_variant_maxmembers']->htmlId} + ']')
+            .text('Kapacita termínu')
+            .attr('title', 'Pro neomezenou kapacitu nechte pole prázdné')
+            .addClass('hint');
+      } else {
+         $('#' + {$f['no_variant_maxteams']->htmlId}).attr('disabled', false);
+         $('label[for=' + {$f['no_variant_maxmembers']->htmlId} + ']')
+            .text('Maximum členů v týmu')
+            .attr('title', '')
+            .removeClass('hint');
+      }
+   });
+
+   // modify the inputs/labels when variant 'no teams' changes its check-state
+   $('input:regex(name, ^variant[0-9]+_noteams)').change(function(){
+      var parentDiv = $(this).parents('div.edit-project-variant').first();
+
+      if ($(this).attr('checked')) {
+         parentDiv.find('input:regex(name, ^variant[0-9]+_maxteams)').attr('disabled', true);
+         parentDiv.find('label:regex(for, variant[0-9]+_maxmembers)')
+            .text('Kapacita termínu')
+            .attr('title', 'Pro neomezenou kapacitu nechte pole prázdné')
+            .addClass('hint');
+      } else {
+         parentDiv.find('input:regex(name, ^variant[0-9]+_maxteams)').attr('disabled', false);
+         parentDiv.find('label:regex(for, variant[0-9]+_maxmembers)')
+            .text('Maximum členů v týmu')
+            .attr('title', '')
+            .removeClass('hint');
+      }
+   });
+
+   // fire change event on all checkboxes to run handlers on pageload
+   $('input[type=checkbox]').change();
+
+   // show hidden but filled variants
+   $('#variants div').each(function(i, el){
+      if ($(el).find('input:regex(name, title$)').val() || $(el).find('input:regex(name, dbId$)').val())
+         $(el).show();
+   });
+   
+});
+//]]>
+</script>
+
+{control editProject end}

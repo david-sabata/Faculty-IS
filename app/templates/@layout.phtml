@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="description" content="Nette Framework web application">
+
+	<title>Informační systém FIT</title>
+
+      <link rel="stylesheet" media="all" href="/css/ui-lightness/jquery-ui-1.8.6.custom.css" type="text/css">
+      <link rel="stylesheet" media="all" href="/css/datagrid.css" type="text/css">
+	<link rel="stylesheet" media="all" href="/css/global.css" type="text/css">
+      <link rel="stylesheet" media="all" href="/css/backend.css" type="text/css">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+      <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+      <script type="text/javascript" src="/js/jquery-ui-1.8.6.custom.min.js"></script>
+      <script type="text/javascript" src="/js/placeholder.js"></script>
+      <script type="text/javascript" src="/js/netteForms.js"></script>
+      <script type="text/javascript" src="/js/jquery.livequery.js"></script>
+      <script type="text/javascript" src="/js/jquery.nette.js"></script>
+      <script type="text/javascript" src="/js/datagrid.js"></script>
+      <script type="text/javascript" src="/js/timepicker-cs.js"></script>
+      <script type="text/javascript" src="/js/functions.js"></script>
+</head>
+
+<body>
+   <div id="header">
+      <img src="/images/fit_logo.png" alt="Fakulta informačních technologií" id="logo" />
+      {include #menu}
+      <div id="userinfo">         
+         <img src="/images/gravatar_empty.png" alt="" />
+         <a href="#" class="not-implemented">{$user->identity->fullName}</a>
+      </div>
+   </div>
+
+   <div id="wrapper">
+      {foreach $flashes as $flash}<div class="flash {$flash->type}">{!$flash->message}</div>{/foreach}
+
+      @{include #content}
+   </div>
+	
+</body>
+</html>

@@ -1,0 +1,87 @@
+
+{block content}
+
+<h1 class="subject-detail">{$subject->name} <span class="gray">{$subject->code}</span></h1>
+
+<p class="subject-details">
+   Ak. rok {$subject->year}/{=$subject->year + 1}, {if $subject->semester == 'W'}zima{else}léto{/if},
+   počet kreditů {$subject->credits}
+</p>
+
+
+{var sumMaxPts => 0}
+{var sumMinPts => 0}
+{var sumPts => 0}
+<table class="subject-details datagrid" n:if="count($projects) > 0">
+   <thead>
+      <tr>
+         <th>Termíny</th>
+         <th class="c">Body</th>
+         <th class="c">Min</th>
+         <th class="c">Max</th>
+         <th class="c">Datum</th>
+         <th>Akce</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr n:foreach="$projects as $project">
+
+         <td>
+            <a href="{link projectDetail $project->id}">{$project->title}</a>
+         </td>
+
+         <td class="c"><strong>{if isset($ratings[$project->id])}{$ratings[$project->id]}{else}0{/if}</strong></td>
+         <td class="c">{$project->min_points}</td>
+         <td class="c">{$project->max_points}</td>
+         
+         <td class="c">
+            {if $project->signup_from && $project->signup_from->getTimestamp() > time()}
+               Přihlašování začíná {$project->signup_from->format('d.m.Y H:i:s')}
+            {elseif $project->signup_until && $project->signup_until->getTimestamp() > time()}
+               Přihlašování končí {$project->signup_until->format('d.m.Y H:i:s')}
+            {elseif $project->submit_from && $project->submit_from->getTimestamp() > time()}
+               Odevzdávání začíná {$project->submit_from->format('d.m.Y H:i:s')}
+            {elseif $project->submit_until && $project->submit_until->getTimestamp() > time()}
+               Odevzdávání končí {$project->submit_until->format('d.m.Y H:i:s')}
+            {else}
+               <span class="gray">-</span>
+            {/if}
+         </td>
+
+         {if isset($ratings[$project->id])}
+            {? $sumPts += $ratings[$project->id]}
+         {/if}
+
+         {? $sumMaxPts += $project->max_points}
+         {? $sumMinPts += $project->min_points}
+
+         <td class="c">
+            <a href="{link projectDetail $project->id}"><img src="/images/datagrid/icons/zoom.png" alt="Detail" title="Detail" /></a>
+         </td>
+      </tr>
+
+      {*
+      <!-- following events are just for ilustration and in an actual system would be generated aswell -->
+      <tr>
+         <td>
+            <a href="#" class="not-implemented">Půlsemestrální test <span class="gray">(ukázka)</span></a>
+         </td>
+         <td class="c">
+            30 <span class="red">(10)</span>
+            {? $sumPts += 30}
+         </td>
+         <td></td>
+         <td></td>
+      </tr>
+      *}
+   </tbody>
+   <tfoot>
+      <tr>
+         <th>Celkem</th>
+         <th class="c">{$sumPts}</th>
+         <th class="c"><span style="font-weight:normal">{$sumMinPts}</span></th>
+         <th class="c"><span style="font-weight:normal">{$sumMaxPts}</span></th>
+         <th colspan="2"></th>
+      </tr>
+   </tfoot>
+</table>

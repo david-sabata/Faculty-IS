@@ -1,0 +1,15 @@
+@{extends '../../templates/@layout.phtml'}
+
+
+{block #menu}
+<ul id="menu">
+   <li{if $presenter->isCurrent('*:Subjects:*')} class="active"{/if}><a href="{link Subjects:}">Předměty</a></li>
+   <li{if $presenter->isCurrent('*:Users:*')} class="active"{/if}><a href="{link Users:}">Uživatelé</a></li>
+   <li{if $presenter->isCurrent('*:Roles:*')} class="active"{/if}><a href="{link Roles:}">Role</a></li>
+   <li><a href="{link logout}">Odhlásit</a></li>   
+</ul>
+
+<div id="submenu">
+   {block #submenu}{/block}
+</div>
+{/block}

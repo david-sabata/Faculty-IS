@@ -1,0 +1,16 @@
+TODO
+====
+? našeptávání (pouze s JS) - http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete
+- skrývání sloupců (pouze s JS)
+- podpora pro jQuey UI Sortable (s i bez JS)
+
+- ImageColumn
+	- potřeba zajistit, aby načítání obrázku fungovalo jak z DB tak z FS
+	- přidat do ImageColumnu metodu (nebo spíše možná uživatelský callback), která vrátí cestu k obrázku / obrázek, pak už jen dále ověřovat přes is_file()
+
+
+NOTES
+=====
+- optimalizace SelectboxFilter::generateItems()
+	az bude umet DibiDataSource DISTINCT prepsat, prozatimni reseni: prevedeno na fluent a na nem aplikovan DISTINCT 
+	(testovano na 50000 radkove tabulce - nativni DDS s DISTINCT je o 1/3 rychlejsi nez prevod z DSS na fluent a pak DISTINCT)

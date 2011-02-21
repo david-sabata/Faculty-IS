@@ -1,0 +1,37 @@
+
+{block content}
+
+{widget editForm begin}
+{widget editForm errors}
+
+{var form => $control['editForm']}
+
+<table>
+   <tr {attr class('required', $form['login']->getOption('required'))}>
+      <th>{$form['login']->label}</th>
+      <td>{$form['login']->control}</td>
+   </tr>
+   <tr {attr class('required', $form['login']->getOption('required'))}>
+      <th>{$form['password']->label}</th>
+      <td>{$form['password']->control}</td>
+   </tr>
+   <tr {attr class('required', $form['login']->getOption('required'))}>
+      <th>Celé jméno</th>
+      <td>
+         {$form['name_prefix']->control}
+         {$form['name']->control}{$form['surname']->control}
+         {$form['name_suffix']->control}
+      </td>
+   </tr>
+   {foreach $form->controls as $c}
+      {if !$c->getOption('rendered')}
+         <tr {attr class('required', $c->getOption('required'))}>
+                <th>{if $c instanceof Button || $c instanceof Checkbox}&nbsp;{else}{!$c->label}{/if}</th>
+
+                <td>{!$c->control}{if $c instanceof Checkbox}{!$c->label}{/if}</td>
+         </tr>
+      {/if}
+   {/foreach}
+</table>
+
+{widget editForm end}

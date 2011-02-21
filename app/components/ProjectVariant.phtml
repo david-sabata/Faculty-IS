@@ -1,0 +1,35 @@
+<div class="edit-project-variant">
+   <input type="hidden" name="{$names['dbId']}" value="{$values['dbId']}" />
+   <table border="0">
+      <tr>
+         <th>
+            <label for="{$ids['title']}" title="Pro odebrání varianty nechte pole prázdné a termín uložte" class="hint">
+               Název varianty
+            </label>
+         </th>
+         <td colspan="4">
+            <input type="text" id="{$ids['title']}" name="{$names['title']}" value="{$values['title']}" style="width:100%;" />
+         </td>
+      </tr>
+      <tr>
+         <th>
+            <label for="{$ids['maxteams']}" title="Pro neomezený počet nechte pole prázdné" class="hint">Maximum týmů</label>
+         </th>
+         <td><input type="text" id="{$ids['maxteams']}" name="{$names['maxteams']}" value="{$values['maxteams']}" /></td>      
+         <td>
+            <input type="checkbox" id="{$ids['noteams']}" name="{$names['noteams']}" {if $values['noteams']}checked="checked"{/if} />
+            <label for="{$ids['noteams']}">bez týmů</label>
+         </td>
+      </tr>
+      <tr>
+         <th><label for="{$ids['maxmembers']}">Maximum členů v týmu</label></th>
+         <td><input type="text" id="{$ids['maxmembers']}" name="{$names['maxmembers']}" value="{$values['maxmembers']}" /></td>
+      </tr>      
+      <tr>
+         <th><label for="{$ids['description']}">Popis varianty</label></th>
+         <td colspan="3">
+            <textarea id="{$ids['description']}" name="{$names['description']}">{$values['description']}</textarea>
+         </td>
+      </tr>
+   </table>
+</div>

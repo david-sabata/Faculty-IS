@@ -1,0 +1,322 @@
+@{block submenu}
+   <a href="{link detail $subject->id}">Zpět na předmět</a>
+@{/block}
+
+
+@{block content}
+
+<h1 class="subject-detail">{$subject->name} <span class="gray">{$subject->code}</span></h1>
+
+<p class="subject-details">
+   Ak. rok {$subject->year}/{=$subject->year + 1}, {if $subject->semester == 'W'}zima{else}léto{/if},
+   počet kreditů {$subject->credits}
+</p>
+
+
+<h2>{$project->title}</h2>
+
+
+<table border="1" class="project-detail">
+   <tr n:if="$project->signup_from && $project->signup_until">
+      <th>Přihlašování</th>
+      <td>Začátek {$project->signup_from->format('d.m.Y H:i:s')}</td>
+      <td>Konec {$project->signup_until->format('d.m.Y H:i:s')}</td>
+   </tr>
+   <tr n:if="$project->submit_from && $project->submit_until">
+      <th>Odevzdávání</th>
+      <td>Začátek {$project->submit_from->format('d.m.Y H:i:s')}</td>
+      <td>Konec {$project->submit_until->format('d.m.Y H:i:s')}</td>
+   </tr>
+   <tr>
+      <th>Body</th>
+      <td n:if="$project->min_points == NULL">bez minima</td>
+      <td n:if="$project->min_points">minimálně {$project->min_points}</td>
+      <td>maximálně {$project->max_points}</td>
+   </tr>
+   <tr>
+      <th>Odevzdávají se soubory</th>
+      {if $project->submit_files}
+         <td>ano</td>
+         <td>
+         {if ($project->submit_from==NULL || $project->submit_from < new DateTime()) &&
+               ($project->submit_until==NULL || $project->submit_until > new DateTime())}
+            {if (!empty($team) && !empty($team->variant) && $team->leader == $user->id) || (empty($team) && !empty($signed_variant))}
+               <a href="{link uploadFiles $project->id}">Odevzdat soubory</a>
+            {/if}
+         {/if}
+         </td>
+      {else}
+         <td colspan="2">ne</td>
+      {/if}
+   </tr>
+</table>
+
+<p n:if="$project->text">
+   {$project->text}
+</p>
+
+{* team management *}
+@{if $teamMgmt}   
+   <div class="team-management collapsible">
+      Jedna nebo více variant tohoto projektu jsou týmové.
+      {snippet teamInfo}
+      <strong n:if="empty($team)">Aktuálně nejste v týmu.</strong>
+      <strong n:if="!empty($team)">Aktuálně jste v týmu s dalšími {=count($colleagues)-1} členy{if $team['leader']==$user->identity->id} a jste vedoucí{else}.{/if}</strong>
+      {/snippet}
+      
+      <a href="#" class="toggle">Zobrazit / skrýt správu týmu</a>
+      <div class="content">
+      {snippet teamManagement}
+         {if isset($hlaska) && !empty($hlaska)}{!$hlaska}<br />{/if}
+
+         {if empty($team)}
+            <a href="{link createTeam!}" class="ajax">Vytvořit tým</a>
+            <br />
+            Vstoupit do týmu studenta <input type="text" id="leader-apply" placeholder="xlogin00" />&nbsp;
+            <a href="{link joinTeam! 'x'}" onclick="var s=$('#leader-apply').val();var link=this.href.replace(/=x/, '='+s);$.get(link);return false;">Vstoupit</a>
+         {else}
+            <table class="members" n:if="isset($team_requests) && count($team_requests)>0 && $team->rated == NULL">
+               <tr>
+                  <th colspan="3" class="l">Žádosti o přijetí do týmu</th>
+               </tr>
+               <tr n:foreach="$team_requests as $applier">
+                  <th>{$applier|formatName}</th>
+                  <td>{$applier->login}</td>
+                  <td>
+                     <a href="{link acceptRequest! $team->id, $applier->login}" class="ajax">Přijmout</a>&nbsp;
+                     <a href="{link rejectRequest! $team->id, $applier->login}" class="ajax">Odmítnout</a>
+                  </td>
+               </tr>
+            </table>
+
+            <table class="members" style="margin-top:15px;">
+               <tr>
+                  <th>Jméno</th>
+                  <th>Login</th>
+                  <th>Pozice</th>
+                  <th>Body</th>
+                  <th n:if="$team->rated == NULL">Akce</th>
+               </tr>
+               <tr n:foreach="$colleagues as $member">
+                  <th>{$member|formatName}</th>
+                  <td>{$member['login']}</td>
+                  <td>{if $member['login'] == $team['leader']}vedoucí{else}člen{/if}</td>
+                  <td>{if $member['rate']==NULL}<span class="gray">-</span>{else}{$member['rate']}{/if}</td>
+                  <td n:if="$team->rated == NULL">
+                        {if $member['login'] == $user->identity->id}
+                           <a href="{link leaveTeam! $team['id']}" class="ajax">Opustit tým</a>
+                        {elseif $user->id == $team['leader']}
+                           <a href="{link kickFromTeam! $team['id'], $member['login']}" class="ajax">Vyhodit z týmu</a>&nbsp;
+                           <a href="{link setLeader! $team['id'], $member['login']}" class="ajax">Předat vedení</a>
+                        {/if}                     
+                  </td>
+               </tr>
+            </table>            
+         {/if}
+      {/snippet}
+      </div>
+   </div>   
+@{/if}
+
+
+{* signup table *}
+{snippet variants}
+<table class="subject-details datagrid">
+   <thead>
+      <tr>
+         <th>Varianta</th>
+         <th class="c">Týmová</th>
+         <th class="c">Kapacita</th>
+         <th class="c">Přihlášeno</th>
+         <th>Přihlašování</th>
+         <th n:if="$project->variants">Akce</th>
+      </tr>
+   </thead>
+   <tbody>
+
+      {* no variants *}
+      <tr n:if="$project->variants == 0">
+         <td>{$project->title}</td>
+         <td class="c">{if $variants[0]->teams_allowed}ano{else}ne{/if}</td>
+         <td class="c">
+            {if $variants[0]->teams_allowed}
+               {if $variants[0]->max_teams == NULL}
+                  neomezeně týmů po {$variants[0]->max_members}
+               {else}
+                  {$variants[0]->max_teams}
+                  {if $variants[0]->max_teams == 1} tým
+                  {elseif $variants[0]->max_teams == 2 ||$variants[0]->max_teams == 3 || $variants[0]->max_teams == 4} týmy
+                  {else} týmů
+                  {/if}
+                   po {$variants[0]->max_members}
+               {/if}
+            {else}
+               {if $variants[0]->max_members}
+                  {$variants[0]->max_members}
+               {else}
+                  neomezená
+               {/if}
+            {/if}
+         </td>
+         <td class="c">{if isset($signedCounts[$variants[0]->id])}{$signedCounts[$variants[0]->id]}{else}0{/if}</td>
+         <td class="c">
+            {? $signUpAllowed = ( $project->signup_from==NULL || $project->signup_from <= new DateTime() ) &&
+                        ( $project->signup_until==NULL || $project->signup_until > new DateTime() ) && $ratingForCurrentUser===NULL}
+
+            
+            {if $variants[0]->teams_allowed}
+
+               {if $signUpAllowed}
+                  {if !empty($team) && $team->variant == $variants[0]->id}
+                     <span class="green">Tým přihlášen</span>
+                     {if $team->leader == $user->id}
+                        <input type="button" value="Odhlásit" class="ajax" rel="{link unsignTeam! $team->id}" />
+                     {/if}                 
+
+                  {elseif empty($team)}
+                     <span class="gray">Nejste v týmu</span>
+                  
+                  {elseif $variants[0]->max_members < count($colleagues)}
+                     <span class="red">Pouze pro týmy nejvýše {$variants[0]->max_members} studentů</span>
+
+                  {elseif isset($signedCounts[$variants[0]->id]) && $signedCounts[$variants[0]->id] == $variants[0]->max_teams}
+                     <span class="red">Není volná kapacita</span>
+
+                  {elseif $team->leader == $user->id}
+                     <input type="button" value="Přihlásit" class="ajax" rel="{link signUpTeam! $team->id, $variants[0]->id}" />
+
+                  {else}
+                     <span class="gray">Za tým se přihlašuje pouze vedoucí</span>
+                  {/if}
+
+
+               {else}
+                  {if !empty($team) && $team->variant == $variants[0]->id}
+                     <span class="green">Tým přihlášen</span>                  
+                  {/if}
+               {/if}
+
+               
+            {else} {* non-team project *}               
+               {if $signUpAllowed}
+                  {if $signed_variant == $variants[0]->id}
+                     <span class="green">Přihlášen</span>
+                     <input type="button" value="Odhlásit" class="ajax" rel="{link unsignStudent! $variants[0]->id}" />
+                   
+                  {elseif isset($signedCounts[$variants[0]->id]) && $signedCounts[$variants[0]->id] == $variants[0]->max_members}
+                     <span class="red">Není volná kapacita</span>
+
+                  {else}
+                     <input type="button" value="Přihlásit" class="ajax" rel="{link signUpStudent! $variants[0]->id}" />
+
+                  {/if}
+               {else}
+                  {if $signed_variant == $variants[0]->id}
+                     <span class="green">Přihlášen</span>
+                  {/if}
+               {/if}
+
+            {/if}
+         </td>         
+      </tr>
+
+
+      {* variants *}
+      {if $project->variants == 1}
+      <tr n:foreach="$variants as $variant">
+         <td><a href="{link variantDetail $variant->id}">{$variant->title}</a></td>
+         <td class="c">{if $variant->teams_allowed}ano{else}ne{/if}</td>
+         <td class="c">
+            {if $variant->teams_allowed}
+               {if $variant->max_teams == NULL}
+                  neomezeně týmů po {$variant->max_members}
+               {else}
+                  {$variant->max_teams}
+                  {if $variant->max_teams == 1} tým
+                  {elseif $variant->max_teams == 2 ||$variant->max_teams == 3 || $variant->max_teams == 4} týmy
+                  {else} týmů
+                  {/if}
+                   po {$variant->max_members}
+               {/if}
+            {else}
+               {if $variant->max_members}
+                  {$variant->max_members}
+               {else}
+                  neomezená
+               {/if}
+            {/if}
+         </td>
+         <td class="c">{if isset($signedCounts[$variant->id])}{$signedCounts[$variant->id]}{else}0{/if}</td>
+         <td class="c">
+
+            {? $signUpAllowed = ( $project->signup_from==NULL || $project->signup_from <= new DateTime() ) &&
+                        ( $project->signup_until==NULL || $project->signup_until > new DateTime() ) && $ratingForCurrentUser===NULL}
+
+
+            {if $variant->teams_allowed}
+
+               {if $signUpAllowed}
+                  {if !empty($team) && $team->variant == $variant->id}
+                     <span class="green">Tým přihlášen</span>
+                     {if $team->leader == $user->id}
+                        <input type="button" value="Odhlásit" class="ajax" rel="{link unsignTeam! $team->id}" />
+                     {/if}
+
+                  {elseif empty($team)}
+                     <span class="gray">Nejste v týmu</span>
+
+                  {elseif $variant->max_members < count($colleagues)}
+                     <span class="red">Pouze pro týmy nejvýše {$variant->max_members} studentů</span>
+
+                  {elseif isset($signedCounts[$variant->id]) && $signedCounts[$variant->id] == $variant->max_teams}
+                     <span class="red">Není volná kapacita</span>
+
+                  {elseif $team->leader == $user->id}
+                     <input type="button" value="Přihlásit" class="ajax" rel="{link signUpTeam! $team->id, $variant->id}" />
+
+                  {else}
+                     <span class="gray">Za tým se přihlašuje pouze vedoucí</span>
+                  {/if}
+
+
+               {else}
+                  {if !empty($team) && $team->variant == $variant->id}
+                     <span class="green">Tým přihlášen</span>
+                  {/if}
+               {/if}
+
+
+            {else} {* non-team project *}
+
+               {if $signUpAllowed}
+                  {if $signed_variant == $variant->id}
+                     <span class="green">Přihlášen</span>
+                     <input type="button" value="Odhlásit" class="ajax" rel="{link unsignStudent! $variant->id}" />
+
+                  {elseif isset($signedCounts[$variant->id]) && $signedCounts[$variant->id] == $variant->max_members}
+                     <span class="red">Není volná kapacita</span>
+
+                  {else}
+                     <input type="button" value="Přihlásit" class="ajax" rel="{link signUpStudent! $variant->id}" />
+
+                  {/if}
+               {else}
+                  {if $signed_variant == $variant->id}
+                     <span class="green">Přihlášen</span>
+                  {/if}
+               {/if}
+
+            {/if}
+
+         </td>
+         <td class="c">
+            <a href="{link variantDetail $variant->id}">
+               <img src="/images/datagrid/icons/zoom.png" alt="Detail varianty" title="Detail varianty" />
+            </a>
+         </td>
+      </tr>
+      {/if}
+
+   </tbody>   
+</table>
+{/snippet}

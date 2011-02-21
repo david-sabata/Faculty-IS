@@ -1,0 +1,169 @@
+
+{block submenu}
+<a href="{link detail $subject->id}">Zpět na předmět</a>
+{/block}
+
+
+{block content}
+
+<h1 class="subject-detail">{$subject->name} <span class="gray">{$subject->code}</span></h1>
+
+<p class="subject-details">
+   Ak. rok {$subject->year}/{=$subject->year + 1}, {if $subject->semester == 'W'}zima{else}léto{/if},
+   počet kreditů {$subject->credits}
+</p>
+
+<h2 style="margin-bottom:0">{$project->title}</h2>
+<p class="subject-details">
+   {if $project->min_points}{$project->min_points} - {/if}{$project->max_points} bodů,
+   {if $project->submit_files}odevzdávají se soubory{else}neodevzdávají se soubory{/if}<br />
+   {if $project->signup_from}
+      přihlašování: {$project->signup_from->format('d.m.Y H:i:s')} - {$project->signup_until->format('d.m.Y H:i:s')}<br />
+   {/if}
+   {if $project->submit_from || $project->submit_until}
+      odevzdávání:
+      {if $project->submit_from && $project->submit_until}
+         {$project->submit_from->format('d.m.Y H:i:s')} - {$project->submit_until->format('d.m.Y H:i:s')}<br />
+      {elseif $project->submit_from}
+         od {$project->submit_from->format('d.m.Y H:i:s')}
+      {elseif $project->submit_until}
+         do {$project->submit_until->format('d.m.Y H:i:s')}
+      {/if}
+      <br />
+   {/if}   
+</p>
+
+<div style="padding-left:10px;">
+
+   {control searchToRate begin}
+   {control searchToRate errors}
+   <table border="0">
+      <tr>
+         <th>{$control['searchToRate']['student']->label}</th>
+         <td>{$control['searchToRate']['student']->control}</td>
+         <td>{$control['searchToRate']['search']->control}</td>
+      </tr>
+   </table>
+   {control searchToRate end}
+
+
+   {if isset($student)}
+      <br />
+
+      {if $project->variants == 0}
+         {? $variant = $variants[0]}
+      {elseif $team}
+         {foreach $variants as $v}
+            {if $v->id == $team->variant}
+               {? $variant = $v; break}
+            {/if}
+         {/foreach}
+      {else}
+         {foreach $variants as $v}
+            {if $v->id == $nonTeamVariant->variant}
+               {? $variant = $v; break}
+            {/if}
+         {/foreach}
+      {/if}
+
+      {if $team}
+
+         <table border="1" class="project-detail" style="text-align:left">
+            {if $project->variants}
+            <tr>
+               <th>Varianta</td>
+               <td>{$variant->title}</td>
+            </tr>
+            {/if}
+            {if isset($uploaded) && !empty($uploaded)}
+            <tr>
+               <th>Odevzdané soubory</th>
+               <td><a href="/files/{$uploaded}">{$uploaded}</a></td>
+            </tr>
+            {/if}
+            <tr>
+               <th>Čas vložení hodnocení</th>
+               <td>
+                  {if $team && $team->rated != NULL}
+                     {$team->rated->format('d.m.Y H:i:s')}
+                  {else}
+                     <span class="gray">-</span>
+                  {/if}
+               </td>
+            </tr>
+            <tr>
+               <th>Hodnotil</th>
+               <td>{if $ratedBy}{$ratedBy|formatName}{else}<span class="gray">-</span>{/if}</td>
+            </tr>
+         </table>
+
+         {? $tr = 'teamRate'.$team->id}
+
+         {control $tr begin}
+         {control $tr errors}
+         <table border="1" class="project-detail" style="text-align:left">
+            <tr n:foreach="$members as $member">
+               <th>{$member|formatName}</th>
+               <td>{$member->login}</td>
+               <td>{if $member->login == $team->leader}vedoucí{else}člen{/if}</td>
+               <td>{$control[$tr][$member->login]->control}bodů</td>
+            </tr>
+            <tr>
+               <td colspan="3"></td>
+               <td>{$control[$tr]['save']->control}</td>
+            </tr>
+         </table>
+         {control $tr end}
+
+      {else} {* non-team *}
+         {control rate begin}
+         {control rate errors}
+         <table border="1" class="project-detail" style="text-align:left">
+            <tr>
+               <th>Celé jméno</th>
+               <td>{$student|formatName}</td>
+            </tr>
+            <tr>
+               <th>Login</th>
+               <td>{$student->login}</td>
+            </tr>
+            {if $project->variants}
+            <tr>
+               <th>Varianta</td>
+               <td>{$variant->title}</td>
+            </tr>
+            {/if}
+            {if isset($uploaded) && !empty($uploaded)}
+            <tr>
+               <th>Odevzdané soubory</th>
+               <td><a href="/files/{$uploaded}">{$uploaded}</a></td>
+            </tr>
+            {/if}
+            <tr>
+               <th>Čas vložení hodnocení</th>
+               <td>
+                  {if $nonTeamVariant && $nonTeamVariant->rated != NULL}
+                     {$nonTeamVariant->rated->format('d.m.Y H:i:s')}
+                  {else}
+                     <span class="gray">-</span>
+                  {/if}
+               </td>
+            </tr>
+            <tr>
+               <th>Hodnotil</th>
+               <td>{if $ratedBy}{$ratedBy|formatName}{else}<span class="gray">-</span>{/if}</td>
+            </tr>
+            <tr>
+               <th>Hodnocení</th>
+               <td>
+                  {$control['rate']['rating']->control}bodů &nbsp; {$control['rate']['save']->control}
+               </td>
+            </tr>
+         </table>
+         {control rate end}
+      {/if}
+
+
+
+   {/if}
+</div>

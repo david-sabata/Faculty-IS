@@ -1,0 +1,34 @@
+{contentType text/xml}
+<?xml version="1.0" encoding="utf-8" ?>
+
+{? $now = new DateTime()}
+{? $exported = array_keys($years);}
+{? $yrs = array();}
+{foreach $exported as $y}
+   {? $yrs[] = $y.'/'.($y+1)}
+{/foreach}
+<!--Export studentů registrovaných v předmětech v {if count($exported)==1}roce{else}letech{/if} {=implode(', ', $yrs)}.
+Vygenerováno {=$now->format('d.m.Y H:i:s')}
+
+Hodnoty 'code' a 'title' u prvků <subject> jsou pouze informativní. Při importu stačí zadat pouze 'id' předmětu.
+Pokud 'id' neznáte, použijte 'code', tedy zkratku předmětu, která má ale při zadání obou atributů nižší prioritu. 
+
+Stejně tak je doplňující i informace o celém jménu studenta. Při importu je nutné zadat pouze 'login' studenta a
+zadání i jména studentovo jméno v systému nijak neovlivní.
+-->
+
+<registrations>
+{foreach $years as $year => $subjects}
+   <year number="{$year}">
+      {foreach $subjects as $subject}
+         <subject id="{$subject->id}" code="{$subject->code}" title="{$subject->name}">
+            {if isset($students[$subject->id])}
+               {foreach $students[$subject->id] as $student}
+                     <student login="{$student->login}" fullname="{$student|formatName}" />
+               {/foreach}
+            {/if}
+         </subject>
+      {/foreach}
+   </year>
+{/foreach}
+</registrations>

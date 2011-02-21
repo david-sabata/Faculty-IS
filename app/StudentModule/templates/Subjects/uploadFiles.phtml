@@ -1,0 +1,49 @@
+@{block submenu}
+   <a href="{link projectDetail $project->id}">Zpět na termín</a>
+@{/block}
+
+
+@{block content}
+
+<h1 class="subject-detail">{$subject->name} <span class="gray">{$subject->code}</span></h1>
+
+<p class="subject-details">
+   Ak. rok {$subject->year}/{=$subject->year + 1}, {if $subject->semester == 'W'}zima{else}léto{/if},
+   počet kreditů {$subject->credits}
+</p>
+
+
+<h2>{$project->title}</h2>
+
+
+<table border="1" class="project-detail">
+   <tr n:if="$project->signup_from && $project->signup_until">
+      <th>Přihlašování</th>
+      <td>Začátek {$project->signup_from->format('d.m.Y H:i:s')}</td>
+      <td>Konec {$project->signup_until->format('d.m.Y H:i:s')}</td>
+   </tr>
+   <tr n:if="$project->submit_from && $project->submit_until">
+      <th>Odevzdávání</th>
+      <td>Začátek {$project->submit_from->format('d.m.Y H:i:s')}</td>
+      <td>Konec {$project->submit_until->format('d.m.Y H:i:s')}</td>
+   </tr>
+   <tr>
+      <th>Body</th>
+      <td n:if="$project->min_points == NULL">bez minima</td>
+      <td n:if="$project->min_points">minimálně {$project->min_points}</td>
+      <td>maximálně {$project->max_points}</td>
+   </tr>
+</table>
+
+{if isset($uploaded) && !empty($uploaded)}
+<br />
+<strong>Odevzdané soubory: </strong><a href="/files/{$uploaded}">{$uploaded}</a>
+<br /><br />
+{/if}
+
+{if ($project->submit_from==NULL || $project->submit_from < new DateTime()) &&
+      ($project->submit_until==NULL || $project->submit_until > new DateTime())}   
+
+{control uploadFiles}
+
+{/if}

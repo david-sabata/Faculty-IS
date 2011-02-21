@@ -1,0 +1,57 @@
+
+{block submenu}
+<a href="{link default}">Zpět na aktuálním předměty</a>
+<a n:if="$editAllowed" href="{link addProject $subject->id}">Vytvořit termín</a>
+{/block}
+
+
+{block content}
+
+<h1 class="subject-detail">{$subject->name} <span class="gray">{$subject->code}</span></h1>
+
+<p class="subject-details">
+   Ak. rok {$subject->year}/{=$subject->year + 1}, {if $subject->semester == 'W'}zima{else}léto{/if},
+   počet kreditů {$subject->credits}
+</p>
+
+{if count($projects) == 0}
+<a href="{link addProject $subject->id}">Vytvořit termín</a>
+{/if}
+
+{var sumMaxPts => 0}
+<table class="subject-details datagrid" n:if="count($projects) > 0">
+   <thead>
+      <tr>
+         <th>Termíny</th>
+         <th class="c">Body</th>
+         <th>Akce</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr n:foreach="$projects as $project">
+         <td>
+            {if $editAllowed}
+               <a href="{link editProject $project->id}">{$project->title}</a>
+            {else}
+               <a href="{link signedForProject $project->id}">{$project->title}</a>
+            {/if}
+         </td>        
+         <td class="c">{$project->max_points} <span class="red">({$project->min_points})</span></td>
+         {? $sumMaxPts += $project->max_points}
+
+         <td>
+            <a n:if="$rateAllowed" href="{link signedForProject $project->id}" title="Zobrazit přihlášené studenty"><span class="icon icon-user"></span></a>
+            <a n:if="$rateAllowed" href="{link rateProject $project->id}" title="Hodnotit termín"><span class="icon icon-rate-project"></span></a>
+            <a n:if="$editAllowed" href="{link editProject $project->id}" title="Upravit termín"><span class="icon icon-edit"></span></a>
+            <a n:if="$editAllowed" href="{link removeProject $project->id}" title="Smazat termín"><span class="icon icon-del"></span></a>
+         </td>
+      </tr>
+   </tbody>
+   <tfoot>
+      <tr>
+         <th>Celkem</th>
+         <th class="c">{$sumMaxPts}</th>
+         <th><a n:if="$editAllowed" href="{link addProject $subject->id}">Vytvořit termín</a></th>
+      </tr>
+   </tfoot>
+</table>

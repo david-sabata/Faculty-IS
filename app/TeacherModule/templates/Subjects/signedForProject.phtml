@@ -1,0 +1,115 @@
+
+{block submenu}
+<a href="{link detail $subject->id}">Zpět na předmět</a>
+{/block}
+
+
+{block content}
+
+<h1 class="subject-detail">{$subject->name} <span class="gray">{$subject->code}</span></h1>
+
+<p class="subject-details">
+   Ak. rok {$subject->year}/{=$subject->year + 1}, {if $subject->semester == 'W'}zima{else}léto{/if},
+   počet kreditů {$subject->credits}
+</p>
+
+<h2 style="margin-bottom:0">{$project->title}</h2>
+<p class="subject-details">
+   {if $project->min_points}{$project->min_points} - {/if}{$project->max_points} bodů,
+   {if $project->submit_files}odevzdávají se soubory{else}neodevzdávají se soubory{/if}<br />
+   {if $project->signup_from}
+      přihlašování: {$project->signup_from->format('d.m.Y H:i:s')} - {$project->signup_until->format('d.m.Y H:i:s')}<br />
+   {/if}
+   {if $project->submit_from || $project->submit_until}
+      odevzdávání:
+      {if $project->submit_from && $project->submit_until}
+         {$project->submit_from->format('d.m.Y H:i:s')} - {$project->submit_until->format('d.m.Y H:i:s')}<br />
+      {elseif $project->submit_from}
+         od {$project->submit_from->format('d.m.Y H:i:s')}
+      {elseif $project->submit_until}
+         do {$project->submit_until->format('d.m.Y H:i:s')}
+      {/if}
+      <br />
+   {/if}
+   studentů v předmětu: {$totalStudents}, registrovaných na termín: {$totalSignedUp}
+</p>
+
+{if $project->variants}
+   {foreach $variants as $variant}
+      <div class="team-management collapsible" style="padding-left:10px">
+         <h3>{$variant->title}</h3>
+         <p class="subject-details" style="margin-bottom:0">
+            kapacita:
+            {if $variant->teams_allowed}
+               {if $variant->max_teams}{$variant->max_teams}{else}neomezený počet{/if}
+               týmů po {$variant->max_members} členech
+            {else}
+               {if $variant->max_members}{$variant->max_members}{else}neomezená{/if}
+            {/if},
+            přihlášeno studentů: {if isset($signed[$variant->id])}{=count($signed[$variant->id])}{else}0{/if}
+         </p>
+         
+         {if !isset($signed[$variant->id])}
+            <span>Žádní studenti</span>
+         {else}
+            <a href="#" class="toggle">Zobrazit / skrýt přihlášené studenty</a>
+            <div class="content">
+               <table class="members">
+                  <tr>
+                     <th>Jméno</th>
+                     <th>Login</th>
+                     <th n:if="$variant->teams_allowed">Tým</th>
+                     <th n:if="$rateAllowed">Akce</th>
+                  </tr>
+                  <tr n:foreach="$signed[$variant->id] as $member">
+                     <th>{$member|formatName}</th>
+                     <td>{$member['login']}</td>
+                     <td n:if="$variant->teams_allowed">{if $member['login'] == $member['leader']}vedoucí{else}člen{/if} týmu </td>
+                     <td n:if="$rateAllowed"><a href="{link rateProject $project->id, student => $member['login']}">Hodnotit</a></td>
+                  </tr>
+               </table>
+            </div>
+         {/if}
+      </div>
+   {/foreach}
+{else}
+   {? $variant = $variants[0]}
+
+   {foreach $variants as $variant}
+      <div class="team-management collapsible" style="padding-left:10px">
+         <h3>{$variant->title}</h3>
+         <p class="subject-details" style="margin-bottom:0">
+            kapacita:
+            {if $variant->teams_allowed}
+               {if $variant->max_teams}{$variant->max_teams}{else}neomezený počet{/if}
+               týmů po {$variant->max_members} členech
+            {else}
+               {if $variant->max_members}{$variant->max_members}{else}neomezená{/if}
+            {/if},
+            přihlášeno studentů: {if isset($signed[$variant->id])}{=count($signed[$variant->id])}{else}0{/if}
+         </p>
+
+         {if !isset($signed[$variant->id])}
+            <span>Žádní studenti</span>
+         {else}
+            <a href="#" class="toggle">Zobrazit / skrýt přihlášené studenty</a>
+            <div class="content">
+               <table class="members">
+                  <tr>
+                     <th>Jméno</th>
+                     <th>Login</th>
+                     <th n:if="$variant->teams_allowed">Tým</th>
+                     <th>Akce</th>
+                  </tr>
+                  <tr n:foreach="$signed[$variant->id] as $member">
+                     <th>{$member|formatName}</th>
+                     <td>{$member['login']}</td>
+                     <td n:if="$variant->teams_allowed">{if $member['login'] == $member['leader']}vedoucí{else}člen{/if} týmu {$member['team']}</td>
+                     <td n:if="$rateAllowed"><a href="{link rateProject $project->id, student => $member['login']}">Hodnotit</a></td>
+                  </tr>
+               </table>
+            </div>
+         {/if}
+      </div>
+   {/foreach}
+{/if}

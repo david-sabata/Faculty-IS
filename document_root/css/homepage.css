@@ -1,0 +1,43 @@
+
+#header {
+   padding: 20px 0;
+   background: #F4EBDB;
+   border-bottom: 5px solid #E4DED5;
+   text-align: center;
+}
+
+#header h1 {
+   color: #3484D2;
+   font-size: 27px;
+   text-shadow: white 1px 1px 0px;
+   cursor: default;
+}
+
+#header h1 img {
+   width: 100px;
+   margin-right: 10px;
+   vertical-align: middle;
+}
+
+#wrapper {
+   max-width: 500px;
+   margin: 0 auto;
+}
+
+#wrapper .login table {
+   width:300px;
+   margin: 20px auto;
+}
+
+ul.error {
+   width:300px;
+   margin:10px auto;
+   padding:0;
+   list-style:none;
+   font-weight:bold;
+   color:red;
+}
+
+div.flash {
+   width:350px;
+}

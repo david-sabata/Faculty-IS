@@ -1,0 +1,4 @@
+RewriteEngine on
+
+# everything else
+RewriteRule ^(.*)$ /document_root/$1 [NE]
