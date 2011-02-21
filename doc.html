@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-2"/>
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<h1>Přihlašování na projekty</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>První autor 
+	    <a href="mailto:xsabat01@stud.fit.vutbr.cz">xsabat01@stud.fit.vutbr.cz</a> -
+		PHP programování systému
+	</dd>
+	<dd>Druhý autor
+	    <a href="mailto:xstrat06@stud.fit.vutbr.cz">xstrat06@stud.fit.vutbr.cz</a> - 
+		uživatelské rozhraní, databáze, testování
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://iis.davidsabata.cz">http://iis.davidsabata.cz</a></dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<table>
+   <tr>
+      <th>Login</th>
+      <th>Heslo</th>
+      <th>Role</th>
+   </tr>               
+   <tr>
+      <td>admin</td>
+      <td>test</td>
+      <td>administrátor</td>
+   </tr>               
+   <tr>
+      <td>igaran01</td>
+      <td>test</td>
+      <td>garant</td>
+   </tr>               
+   <tr>
+      <td>ivyucu01</td>
+      <td>test</td>
+      <td>vyučující</td>
+   </tr>     
+   <tr>
+      <td>iasist01</td>
+      <td>test</td>
+      <td>asistent</td>
+   </tr>
+   <tr>
+      <td>xsabat01</td>
+      <td>test</td>
+      <td>student</td>
+   </tr>
+   <tr>
+      <td>xstrat06</td>
+      <td>test</td>
+      <td>student</td>
+   </tr>
+   <tr>
+      <td>xzelap01</td>
+      <td>test</td>
+      <td>student</td>
+   </tr>
+   <tr>
+      <td>xtycka01</td>
+      <td>test</td>
+      <td>student</td>
+   </tr>
+   <tr>
+      <td>xnovak01</td>
+      <td>test</td>
+      <td>student</td>
+   </tr>
+</table>
+
+
+<h2>Implementace</h2>
+<p>
+  Systém je rozdělen do několika modulů:<br /><br /> 
+  
+  <code>Public</code> obsahující pouze přihlašovací stránku a možnost resetu 
+  databáze do výchozího stavu. Pokud je již uživatel přihlášen, je automaticky přesměrován 
+  na modul odpovídající jeho roli.<br /><br />
+  
+  <code>Admin</code> pro potřeby správce systému. Ten zde vytváří uživatelské účty, nastavuje 
+  uživatelům role a jednotlivým rolím přiřazuje povolené úkony. Dále vytváří předměty a 
+  přiřazuje jim vyučující (v možných rolích: asistent, vyučující, garant), a registruje 
+  studentům zvolené předměty. Tyto registrace studentů do předmětů je možné importovat a exportovat. 
+  Import pracuje inkrementálně, tedy není jeho pomocí možné studenta z předmětu odhlásit. Funkčnost, 
+  kdy by byli studenti neuvedení v importu z předmětu odhlášeni, by byla v praxi nepoužitelná. Jedním 
+  z cílů systému byla možnost archivace všech vazeb a možnost zpětného prohlížení. Soubor k importu 
+  by v takovém případě neúnostně nabíral na velikosti.<br /><br />
+  
+  <code>Teacher</code> pro zaměstnance přiřazené k předmětům a jejich možnost 
+  (v závislosti na oprávnění) vypisovat, upravovat a hodnotit projekty. Ve výchozím 
+  nastavení od sebe role dědí oprávnění. Asistent může projekty pouze hodnotit, vyučující 
+  je může navíc zadávat a upravovat. Garant nemá oproti vyučujícímu žádná další oprávnení a je v 
+  systému spíše pro demonstraci možností. Všichni pak mohou prohlížet obsazení vypsaných termínů studenty.<br /><br />
+  
+  <code>Student</code> pro přihlášení studentů. K dispozici je jak rychlý přehled předmětů v aktuálním roce, 
+  tak i přehled všech předmětů za dobu studia. V obou případech je možné se dostat přes detail předmětu a detail projektu 
+  až k případnému detailu varianty vypsaného termínu. (Vždy samozřejmě v závislosti na typu vypsaného termínu.) Podle 
+  nastavení termínu (projektu) se může student přihlásit buď sám anebo v týmu, ihned nebo ve vyučujícím naplánovaném čase.<br /><br />
+  <br />
+      
+  Způsob přihlašování na projekty jsme v našem systému pojali odlišně od současného fakultního systému. 
+  První změnou je, že systém umožňuje vytvořit kombinovaný termín, jehož některé varianty budou týmové, zatímco 
+  jiné budou pouze pro jednotlivce. U týmových variant lze limitovat počet členů v týmu a počet týmů celkem. U netýmových 
+  variant lze omezit pouze maximum přihlášených studentů.<br />
+  Druhou změnou je přihlašování na týmové projekty. Aby se studenti mohli na termín přihlásit, musejí nejdříve 
+  utvořit tým. Student může tým založit sám (a stává se tak jeho vedoucím s možností předat vedení jinému členovi týmu nebo 
+  tohoto člena z týmu vyřadit) anebo může požádat o přijetí do již založeného týmu jiného studenta (který je jeho vedoucím). 
+  Na projekt se potom přihlašuje pouze vedoucí týmu, což sníží zátěž serveru v době přihlašování, ale zejména 
+  umožní větší organizovanost studentů u týmových variant projektů. <br />
+  Přínos pro vyučující je větší kontrola nad počtem a velikostí týmů a dále přehlednější hodnocení, kde se při 
+  hodnocení studenta zobrazí přímo i jeho tým a je možné hodnotit všechny jeho členy.<br /><br />
+  
+  Jelikož při přihlašování musí každý požadavek nejdříve ověřit volnou kapacitu termínu a až pak probíhá přihlášení, 
+  vzniká zde klasický problém synchronizace vícevláknové aplikace - jedno vlákno se rozhoduje na základě hodnoty, kterou upravuje 
+  jiné vlákno. Tomuto jsme zamezili zavedením kritické sekce, která je řešená pomocí zamykání databázových tabulek. Toto řešení 
+  je v našem případě jednodušší a co se rychlosti zpracování dotazu týče i výkonnější než použití transakcí.<br /><br />
+         
+  Původní návrh databázové struktury jsme rozšířili o několik vazebních tabulek, jelikož náš dřívější návrh nepočítal s 
+  více variantami termínů, s možností netýmových termínů, ani s možností kombinací týmových a netýmových zadání.  
+</p>
+
+<h2>Instalace</h2>
+<ul>
+  <li>
+    Požadavky na hosting: Apache s modulem mod_rewrite, MySQL 5.1+, PHP 5.3+ (konkrétní vyžadované nastavení a moduly lze zkontrolovat 
+    pomocí RequirementsCheckeru z distribuce <a href="http://nette.org/cs/download">Nette Frameworku</a>)
+  </li>
+  <li>
+    Odevzdaný archiv rozbalte na serveru, nastavte práv a pro zápis do složek <code>log</code>, <code>temp</code> a <code>document_root/files</code>
+  </li>
+  <li>Ve složce <code>libs</code> vytvořte složku <code>Nette</code>, do které nakopírujte <a href="https://github.com/nette/nette/commit/ecc11dfadc701645972cdcbc5986c0e104a3dd7a">Nette Framework ve verzi 2.0-dev, revize ecc11df z 30.9.2010</a></li>
+  <li>Ve složce <code>libs</code> vytvořte složku <code>dibi</code>, do které nakopírujte <a href="https://github.com/nette/dibi/commit/90592929ecc13b66890ef1cc615fa7ac267b93bf">dibi ve verzi 1.3-dev, revize 9059292 z 28.9.2010</a></li> 
+  <li>Ve složce <code>libs</code> vytvořte složku <code>DataGrid</code>, do které nakopírujte <a href="http://sklad.davidsabata.cz/DataGrid.zip">DataGrid ve verzi pro Nette Framework 2.0-dev</a></li>
+  <li>Vytvořte prázdnou databázi a adresu serveru a přihlašovací údaje vyplňte v souboru <code>app/config.ini</code> v sekci <code>[common]</code></li>
+  <li>Spusťte inicializaci databáze na adrese <code>vasweb.cz/init</code> (v případě projektu <a href="http://iis.davidsabata.cz/init">iis.davidsabata.cz/init</a>), která nastaví databázi do výchozího stavu a naplní ji ukázkovými daty. <span style="color:red">Obnovení prosím proveďte i před samotným opravováním. Jelikož je systém dostupný na veřejném webu a není chráněn heslem, nemůžeme zaručit, že od data odevzdání do data Vašeho opravování se do systému nikdo nepřihlásí a nebude provádět úpravy v předdefinovaných datech.</span></li>
+</ul>
+
+<h2>Známé problémy</h2>
+<p>Žádné</p>
+
+</body>
+</html>
