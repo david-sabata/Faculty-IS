@@ -12,26 +12,26 @@
 </head>
 <body>
 
-<!-- Zkontrolujte prosím nastavení kódování v hlavièce dokumentu 
-     podle pou¾itého editoru -->
+<!-- Zkontrolujte prosÃ­m nastavenÃ­ kÃ³dovÃ¡nÃ­ v hlaviÄce dokumentu 
+     podle pouÅ¾itÃ©ho editoru -->
 
-<h1>Pøihla¹ování na projekty</h1> <!-- Nahradte názvem svého zadání -->
+<h1>PÅ™ihlaÅ¡ovÃ¡nÃ­ na projekty</h1> <!-- Nahradte nÃ¡zvem svÃ©ho zadÃ¡nÃ­ -->
 
 <dl>
-	<dt>Autoøi</dt>
-	<dd>První autor 
+	<dt>AutoÅ™i</dt>
+	<dd>PrvnÃ­ autor 
 	    <a href="mailto:xsabat01@stud.fit.vutbr.cz">xsabat01@stud.fit.vutbr.cz</a> -
-		PHP programování systému
+		PHP programovÃ¡nÃ­ systÃ©mu
 	</dd>
-	<dd>Druhı autor
+	<dd>DruhÃ½ autor
 	    <a href="mailto:xstrat06@stud.fit.vutbr.cz">xstrat06@stud.fit.vutbr.cz</a> - 
-		u¾ivatelské rozhraní, databáze, testování
+		uÅ¾ivatelskÃ© rozhranÃ­, databÃ¡ze, testovÃ¡nÃ­
 	</dd>
 	<dt>URL aplikace</dt>
 	<dd><a href="http://iis.davidsabata.cz">http://iis.davidsabata.cz</a></dd>
 </dl>
 
-<h2>U¾ivatelé systému pro testování</h2>
+<h2>UÅ¾ivatelÃ© systÃ©mu pro testovÃ¡nÃ­</h2>
 <table>
    <tr>
       <th>Login</th>
@@ -41,7 +41,7 @@
    <tr>
       <td>admin</td>
       <td>test</td>
-      <td>administrátor</td>
+      <td>administrÃ¡tor</td>
    </tr>               
    <tr>
       <td>igaran01</td>
@@ -51,7 +51,7 @@
    <tr>
       <td>ivyucu01</td>
       <td>test</td>
-      <td>vyuèující</td>
+      <td>vyuÄujÃ­cÃ­</td>
    </tr>     
    <tr>
       <td>iasist01</td>
@@ -88,72 +88,72 @@
 
 <h2>Implementace</h2>
 <p>
-  Systém je rozdìlen do nìkolika modulù:<br /><br /> 
+  SystÃ©m je rozdÄ›len do nÄ›kolika modulÅ¯:<br /><br /> 
   
-  <code>Public</code> obsahující pouze pøihla¹ovací stránku a mo¾nost resetu 
-  databáze do vıchozího stavu. Pokud je ji¾ u¾ivatel pøihlá¹en, je automaticky pøesmìrován 
-  na modul odpovídající jeho roli.<br /><br />
+  <code>Public</code> obsahujÃ­cÃ­ pouze pÅ™ihlaÅ¡ovacÃ­ strÃ¡nku a moÅ¾nost resetu 
+  databÃ¡ze do vÃ½chozÃ­ho stavu. Pokud je jiÅ¾ uÅ¾ivatel pÅ™ihlÃ¡Å¡en, je automaticky pÅ™esmÄ›rovÃ¡n 
+  na modul odpovÃ­dajÃ­cÃ­ jeho roli.<br /><br />
   
-  <code>Admin</code> pro potøeby správce systému. Ten zde vytváøí u¾ivatelské úèty, nastavuje 
-  u¾ivatelùm role a jednotlivım rolím pøiøazuje povolené úkony. Dále vytváøí pøedmìty a 
-  pøiøazuje jim vyuèující (v mo¾nıch rolích: asistent, vyuèující, garant), a registruje 
-  studentùm zvolené pøedmìty. Tyto registrace studentù do pøedmìtù je mo¾né importovat a exportovat. 
-  Import pracuje inkrementálnì, tedy není jeho pomocí mo¾né studenta z pøedmìtu odhlásit. Funkènost, 
-  kdy by byli studenti neuvedení v importu z pøedmìtu odhlá¹eni, by byla v praxi nepou¾itelná. Jedním 
-  z cílù systému byla mo¾nost archivace v¹ech vazeb a mo¾nost zpìtného prohlí¾ení. Soubor k importu 
-  by v takovém pøípadì neúnostnì nabíral na velikosti.<br /><br />
+  <code>Admin</code> pro potÅ™eby sprÃ¡vce systÃ©mu. Ten zde vytvÃ¡Å™Ã­ uÅ¾ivatelskÃ© ÃºÄty, nastavuje 
+  uÅ¾ivatelÅ¯m role a jednotlivÃ½m rolÃ­m pÅ™iÅ™azuje povolenÃ© Ãºkony. DÃ¡le vytvÃ¡Å™Ã­ pÅ™edmÄ›ty a 
+  pÅ™iÅ™azuje jim vyuÄujÃ­cÃ­ (v moÅ¾nÃ½ch rolÃ­ch: asistent, vyuÄujÃ­cÃ­, garant), a registruje 
+  studentÅ¯m zvolenÃ© pÅ™edmÄ›ty. Tyto registrace studentÅ¯ do pÅ™edmÄ›tÅ¯ je moÅ¾nÃ© importovat a exportovat. 
+  Import pracuje inkrementÃ¡lnÄ›, tedy nenÃ­ jeho pomocÃ­ moÅ¾nÃ© studenta z pÅ™edmÄ›tu odhlÃ¡sit. FunkÄnost, 
+  kdy by byli studenti neuvedenÃ­ v importu z pÅ™edmÄ›tu odhlÃ¡Å¡eni, by byla v praxi nepouÅ¾itelnÃ¡. JednÃ­m 
+  z cÃ­lÅ¯ systÃ©mu byla moÅ¾nost archivace vÅ¡ech vazeb a moÅ¾nost zpÄ›tnÃ©ho prohlÃ­Å¾enÃ­. Soubor k importu 
+  by v takovÃ©m pÅ™Ã­padÄ› neÃºnostnÄ› nabÃ­ral na velikosti.<br /><br />
   
-  <code>Teacher</code> pro zamìstnance pøiøazené k pøedmìtùm a jejich mo¾nost 
-  (v závislosti na oprávnìní) vypisovat, upravovat a hodnotit projekty. Ve vıchozím 
-  nastavení od sebe role dìdí oprávnìní. Asistent mù¾e projekty pouze hodnotit, vyuèující 
-  je mù¾e navíc zadávat a upravovat. Garant nemá oproti vyuèujícímu ¾ádná dal¹í oprávnení a je v 
-  systému spí¹e pro demonstraci mo¾ností. V¹ichni pak mohou prohlí¾et obsazení vypsanıch termínù studenty.<br /><br />
+  <code>Teacher</code> pro zamÄ›stnance pÅ™iÅ™azenÃ© k pÅ™edmÄ›tÅ¯m a jejich moÅ¾nost 
+  (v zÃ¡vislosti na oprÃ¡vnÄ›nÃ­) vypisovat, upravovat a hodnotit projekty. Ve vÃ½chozÃ­m 
+  nastavenÃ­ od sebe role dÄ›dÃ­ oprÃ¡vnÄ›nÃ­. Asistent mÅ¯Å¾e projekty pouze hodnotit, vyuÄujÃ­cÃ­ 
+  je mÅ¯Å¾e navÃ­c zadÃ¡vat a upravovat. Garant nemÃ¡ oproti vyuÄujÃ­cÃ­mu Å¾Ã¡dnÃ¡ dalÅ¡Ã­ oprÃ¡vnenÃ­ a je v 
+  systÃ©mu spÃ­Å¡e pro demonstraci moÅ¾nostÃ­. VÅ¡ichni pak mohou prohlÃ­Å¾et obsazenÃ­ vypsanÃ½ch termÃ­nÅ¯ studenty.<br /><br />
   
-  <code>Student</code> pro pøihlá¹ení studentù. K dispozici je jak rychlı pøehled pøedmìtù v aktuálním roce, 
-  tak i pøehled v¹ech pøedmìtù za dobu studia. V obou pøípadech je mo¾né se dostat pøes detail pøedmìtu a detail projektu 
-  a¾ k pøípadnému detailu varianty vypsaného termínu. (V¾dy samozøejmì v závislosti na typu vypsaného termínu.) Podle 
-  nastavení termínu (projektu) se mù¾e student pøihlásit buï sám anebo v tımu, ihned nebo ve vyuèujícím naplánovaném èase.<br /><br />
+  <code>Student</code> pro pÅ™ihlÃ¡Å¡enÃ­ studentÅ¯. K dispozici je jak rychlÃ½ pÅ™ehled pÅ™edmÄ›tÅ¯ v aktuÃ¡lnÃ­m roce, 
+  tak i pÅ™ehled vÅ¡ech pÅ™edmÄ›tÅ¯ za dobu studia. V obou pÅ™Ã­padech je moÅ¾nÃ© se dostat pÅ™es detail pÅ™edmÄ›tu a detail projektu 
+  aÅ¾ k pÅ™Ã­padnÃ©mu detailu varianty vypsanÃ©ho termÃ­nu. (VÅ¾dy samozÅ™ejmÄ› v zÃ¡vislosti na typu vypsanÃ©ho termÃ­nu.) Podle 
+  nastavenÃ­ termÃ­nu (projektu) se mÅ¯Å¾e student pÅ™ihlÃ¡sit buÄ sÃ¡m anebo v tÃ½mu, ihned nebo ve vyuÄujÃ­cÃ­m naplÃ¡novanÃ©m Äase.<br /><br />
   <br />
       
-  Zpùsob pøihla¹ování na projekty jsme v na¹em systému pojali odli¹nì od souèasného fakultního systému. 
-  První zmìnou je, ¾e systém umo¾òuje vytvoøit kombinovanı termín, jeho¾ nìkteré varianty budou tımové, zatímco 
-  jiné budou pouze pro jednotlivce. U tımovıch variant lze limitovat poèet èlenù v tımu a poèet tımù celkem. U netımovıch 
-  variant lze omezit pouze maximum pøihlá¹enıch studentù.<br />
-  Druhou zmìnou je pøihla¹ování na tımové projekty. Aby se studenti mohli na termín pøihlásit, musejí nejdøíve 
-  utvoøit tım. Student mù¾e tım zalo¾it sám (a stává se tak jeho vedoucím s mo¾ností pøedat vedení jinému èlenovi tımu nebo 
-  tohoto èlena z tımu vyøadit) anebo mù¾e po¾ádat o pøijetí do ji¾ zalo¾eného tımu jiného studenta (kterı je jeho vedoucím). 
-  Na projekt se potom pøihla¹uje pouze vedoucí tımu, co¾ sní¾í zátì¾ serveru v dobì pøihla¹ování, ale zejména 
-  umo¾ní vìt¹í organizovanost studentù u tımovıch variant projektù. <br />
-  Pøínos pro vyuèující je vìt¹í kontrola nad poètem a velikostí tımù a dále pøehlednìj¹í hodnocení, kde se pøi 
-  hodnocení studenta zobrazí pøímo i jeho tım a je mo¾né hodnotit v¹echny jeho èleny.<br /><br />
+  ZpÅ¯sob pÅ™ihlaÅ¡ovÃ¡nÃ­ na projekty jsme v naÅ¡em systÃ©mu pojali odliÅ¡nÄ› od souÄasnÃ©ho fakultnÃ­ho systÃ©mu. 
+  PrvnÃ­ zmÄ›nou je, Å¾e systÃ©m umoÅ¾Åˆuje vytvoÅ™it kombinovanÃ½ termÃ­n, jehoÅ¾ nÄ›kterÃ© varianty budou tÃ½movÃ©, zatÃ­mco 
+  jinÃ© budou pouze pro jednotlivce. U tÃ½movÃ½ch variant lze limitovat poÄet ÄlenÅ¯ v tÃ½mu a poÄet tÃ½mÅ¯ celkem. U netÃ½movÃ½ch 
+  variant lze omezit pouze maximum pÅ™ihlÃ¡Å¡enÃ½ch studentÅ¯.<br />
+  Druhou zmÄ›nou je pÅ™ihlaÅ¡ovÃ¡nÃ­ na tÃ½movÃ© projekty. Aby se studenti mohli na termÃ­n pÅ™ihlÃ¡sit, musejÃ­ nejdÅ™Ã­ve 
+  utvoÅ™it tÃ½m. Student mÅ¯Å¾e tÃ½m zaloÅ¾it sÃ¡m (a stÃ¡vÃ¡ se tak jeho vedoucÃ­m s moÅ¾nostÃ­ pÅ™edat vedenÃ­ jinÃ©mu Älenovi tÃ½mu nebo 
+  tohoto Älena z tÃ½mu vyÅ™adit) anebo mÅ¯Å¾e poÅ¾Ã¡dat o pÅ™ijetÃ­ do jiÅ¾ zaloÅ¾enÃ©ho tÃ½mu jinÃ©ho studenta (kterÃ½ je jeho vedoucÃ­m). 
+  Na projekt se potom pÅ™ihlaÅ¡uje pouze vedoucÃ­ tÃ½mu, coÅ¾ snÃ­Å¾Ã­ zÃ¡tÄ›Å¾ serveru v dobÄ› pÅ™ihlaÅ¡ovÃ¡nÃ­, ale zejmÃ©na 
+  umoÅ¾nÃ­ vÄ›tÅ¡Ã­ organizovanost studentÅ¯ u tÃ½movÃ½ch variant projektÅ¯. <br />
+  PÅ™Ã­nos pro vyuÄujÃ­cÃ­ je vÄ›tÅ¡Ã­ kontrola nad poÄtem a velikostÃ­ tÃ½mÅ¯ a dÃ¡le pÅ™ehlednÄ›jÅ¡Ã­ hodnocenÃ­, kde se pÅ™i 
+  hodnocenÃ­ studenta zobrazÃ­ pÅ™Ã­mo i jeho tÃ½m a je moÅ¾nÃ© hodnotit vÅ¡echny jeho Äleny.<br /><br />
   
-  Jeliko¾ pøi pøihla¹ování musí ka¾dı po¾adavek nejdøíve ovìøit volnou kapacitu termínu a a¾ pak probíhá pøihlá¹ení, 
-  vzniká zde klasickı problém synchronizace vícevláknové aplikace - jedno vlákno se rozhoduje na základì hodnoty, kterou upravuje 
-  jiné vlákno. Tomuto jsme zamezili zavedením kritické sekce, která je øe¹ená pomocí zamykání databázovıch tabulek. Toto øe¹ení 
-  je v na¹em pøípadì jednodu¹¹í a co se rychlosti zpracování dotazu tıèe i vıkonnìj¹í ne¾ pou¾ití transakcí.<br /><br />
+  JelikoÅ¾ pÅ™i pÅ™ihlaÅ¡ovÃ¡nÃ­ musÃ­ kaÅ¾dÃ½ poÅ¾adavek nejdÅ™Ã­ve ovÄ›Å™it volnou kapacitu termÃ­nu a aÅ¾ pak probÃ­hÃ¡ pÅ™ihlÃ¡Å¡enÃ­, 
+  vznikÃ¡ zde klasickÃ½ problÃ©m synchronizace vÃ­cevlÃ¡knovÃ© aplikace - jedno vlÃ¡kno se rozhoduje na zÃ¡kladÄ› hodnoty, kterou upravuje 
+  jinÃ© vlÃ¡kno. Tomuto jsme zamezili zavedenÃ­m kritickÃ© sekce, kterÃ¡ je Å™eÅ¡enÃ¡ pomocÃ­ zamykÃ¡nÃ­ databÃ¡zovÃ½ch tabulek. Toto Å™eÅ¡enÃ­ 
+  je v naÅ¡em pÅ™Ã­padÄ› jednoduÅ¡Å¡Ã­ a co se rychlosti zpracovÃ¡nÃ­ dotazu tÃ½Äe i vÃ½konnÄ›jÅ¡Ã­ neÅ¾ pouÅ¾itÃ­ transakcÃ­.<br /><br />
          
-  Pùvodní návrh databázové struktury jsme roz¹íøili o nìkolik vazebních tabulek, jeliko¾ ná¹ døívìj¹í návrh nepoèítal s 
-  více variantami termínù, s mo¾ností netımovıch termínù, ani s mo¾ností kombinací tımovıch a netımovıch zadání.  
+  PÅ¯vodnÃ­ nÃ¡vrh databÃ¡zovÃ© struktury jsme rozÅ¡Ã­Å™ili o nÄ›kolik vazebnÃ­ch tabulek, jelikoÅ¾ nÃ¡Å¡ dÅ™Ã­vÄ›jÅ¡Ã­ nÃ¡vrh nepoÄÃ­tal s 
+  vÃ­ce variantami termÃ­nÅ¯, s moÅ¾nostÃ­ netÃ½movÃ½ch termÃ­nÅ¯, ani s moÅ¾nostÃ­ kombinacÃ­ tÃ½movÃ½ch a netÃ½movÃ½ch zadÃ¡nÃ­.  
 </p>
 
 <h2>Instalace</h2>
 <ul>
   <li>
-    Po¾adavky na hosting: Apache s modulem mod_rewrite, MySQL 5.1+, PHP 5.3+ (konkrétní vy¾adované nastavení a moduly lze zkontrolovat 
-    pomocí RequirementsCheckeru z distribuce <a href="http://nette.org/cs/download">Nette Frameworku</a>)
+    PoÅ¾adavky na hosting: Apache s modulem mod_rewrite, MySQL 5.1+, PHP 5.3+ (konkrÃ©tnÃ­ vyÅ¾adovanÃ© nastavenÃ­ a moduly lze zkontrolovat 
+    pomocÃ­ RequirementsCheckeru z distribuce <a href="http://nette.org/cs/download">Nette Frameworku</a>)
   </li>
   <li>
-    Odevzdanı archiv rozbalte na serveru, nastavte práv a pro zápis do slo¾ek <code>log</code>, <code>temp</code> a <code>document_root/files</code>
+    OdevzdanÃ½ archiv rozbalte na serveru, nastavte prÃ¡v a pro zÃ¡pis do sloÅ¾ek <code>log</code>, <code>temp</code> a <code>document_root/files</code>
   </li>
-  <li>Ve slo¾ce <code>libs</code> vytvoøte slo¾ku <code>Nette</code>, do které nakopírujte <a href="https://github.com/nette/nette/commit/ecc11dfadc701645972cdcbc5986c0e104a3dd7a">Nette Framework ve verzi 2.0-dev, revize ecc11df z 30.9.2010</a></li>
-  <li>Ve slo¾ce <code>libs</code> vytvoøte slo¾ku <code>dibi</code>, do které nakopírujte <a href="https://github.com/nette/dibi/commit/90592929ecc13b66890ef1cc615fa7ac267b93bf">dibi ve verzi 1.3-dev, revize 9059292 z 28.9.2010</a></li> 
-  <li>Ve slo¾ce <code>libs</code> vytvoøte slo¾ku <code>DataGrid</code>, do které nakopírujte <a href="http://sklad.davidsabata.cz/DataGrid.zip">DataGrid ve verzi pro Nette Framework 2.0-dev</a></li>
-  <li>Vytvoøte prázdnou databázi a adresu serveru a pøihla¹ovací údaje vyplòte v souboru <code>app/config.ini</code> v sekci <code>[common]</code></li>
-  <li>Spus»te inicializaci databáze na adrese <code>vasweb.cz/init</code> (v pøípadì projektu <a href="http://iis.davidsabata.cz/init">iis.davidsabata.cz/init</a>), která nastaví databázi do vıchozího stavu a naplní ji ukázkovımi daty. <span style="color:red">Obnovení prosím proveïte i pøed samotnım opravováním. Jeliko¾ je systém dostupnı na veøejném webu a není chránìn heslem, nemù¾eme zaruèit, ¾e od data odevzdání do data Va¹eho opravování se do systému nikdo nepøihlásí a nebude provádìt úpravy v pøeddefinovanıch datech.</span></li>
+  <li>Ve sloÅ¾ce <code>libs</code> vytvoÅ™te sloÅ¾ku <code>Nette</code>, do kterÃ© nakopÃ­rujte <a href="https://github.com/nette/nette/commit/ecc11dfadc701645972cdcbc5986c0e104a3dd7a">Nette Framework ve verzi 2.0-dev, revize ecc11df z 30.9.2010</a></li>
+  <li>Ve sloÅ¾ce <code>libs</code> vytvoÅ™te sloÅ¾ku <code>dibi</code>, do kterÃ© nakopÃ­rujte <a href="https://github.com/nette/dibi/commit/90592929ecc13b66890ef1cc615fa7ac267b93bf">dibi ve verzi 1.3-dev, revize 9059292 z 28.9.2010</a></li> 
+  <li>Ve sloÅ¾ce <code>libs</code> vytvoÅ™te sloÅ¾ku <code>DataGrid</code>, do kterÃ© nakopÃ­rujte <a href="http://sklad.davidsabata.cz/DataGrid.zip">DataGrid ve verzi pro Nette Framework 2.0-dev</a></li>
+  <li>VytvoÅ™te prÃ¡zdnou databÃ¡zi a adresu serveru a pÅ™ihlaÅ¡ovacÃ­ Ãºdaje vyplÅˆte v souboru <code>app/config.ini</code> v sekci <code>[common]</code></li>
+  <li>SpusÅ¥te inicializaci databÃ¡ze na adrese <code>vasweb.cz/init</code> (v pÅ™Ã­padÄ› projektu <a href="http://iis.davidsabata.cz/init">iis.davidsabata.cz/init</a>), kterÃ¡ nastavÃ­ databÃ¡zi do vÃ½chozÃ­ho stavu a naplnÃ­ ji ukÃ¡zkovÃ½mi daty. <span style="color:red">ObnovenÃ­ prosÃ­m proveÄte i pÅ™ed samotnÃ½m opravovÃ¡nÃ­m. JelikoÅ¾ je systÃ©m dostupnÃ½ na veÅ™ejnÃ©m webu a nenÃ­ chrÃ¡nÄ›n heslem, nemÅ¯Å¾eme zaruÄit, Å¾e od data odevzdÃ¡nÃ­ do data VaÅ¡eho opravovÃ¡nÃ­ se do systÃ©mu nikdo nepÅ™ihlÃ¡sÃ­ a nebude provÃ¡dÄ›t Ãºpravy v pÅ™eddefinovanÃ½ch datech.</span></li>
 </ul>
 
-<h2>Známé problémy</h2>
-<p>®ádné</p>
+<h2>ZnÃ¡mÃ© problÃ©my</h2>
+<p>Å½Ã¡dnÃ©</p>
 
 </body>
 </html>
